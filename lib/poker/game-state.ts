@@ -311,23 +311,16 @@ export class GameStateManager {
    * Check if betting round is complete
    */
   private static isBettingRoundComplete(gameState: GameState): boolean {
-    const activePlayers = gameState.players.filter((p) => p.status === 'folded');
-    
-    if (activePlayers.length === 1) {
-      return true; // Only one player left
-    }
-
-    // All players have acted and bets are equal
-    const playersInHand = gameState.players.filter(
+    const activePlayers = gameState.players.filter(
       (p) => p.status === 'active' || p.status === 'allIn'
     );
     
-    if (playersInHand.length <= 1) {
-      return true;
+    if (activePlayers.length <= 1) {
+      return true; // Only one player left
     }
 
     // Check if all players have matched the current bet
-    const allMatched = playersInHand.every(
+    const allMatched = activePlayers.every(
       (p) => p.currentBet === gameState.currentBet || p.status === 'allIn' || p.chips === 0
     );
 
