@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { GameState } from '@/types/poker.types';
 import { GAME_CONFIG } from '@/config/game.config';
 
@@ -9,10 +10,25 @@ interface GameStatusDisplayProps {
 }
 
 export default function GameStatusDisplay({ gameState, currentAction }: GameStatusDisplayProps) {
+  const [timeLeft, setTimeLeft] = useState(GAME_CONFIG.timers.turnDurationMs / 1000);
   const activePlayers = gameState.players.filter(p => p.status === 'active').length;
   const totalPot = gameState.pots.reduce((sum, pot) => sum + pot.amount, 0);
   const roundName = GAME_CONFIG.bettingRounds[gameState.bettingRound].name;
   const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+
+  // Reset timer when current player changes
+  useEffect(() => {
+    setTimeLeft(GAME_CONFIG.timers.turnDurationMs / 1000);
+    
+    const interval = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 0) return 0;
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [gameState.currentPlayerIndex, gameState.bettingRound]);
 
   // Get recent actions from all players
   const recentActions = gameState.players
@@ -140,14 +156,18 @@ export default function GameStatusDisplay({ gameState, currentAction }: GameStat
       {/* Turn Timer Progress */}
       {gameState.currentPlayerIndex !== undefined && (
         <div className="mt-4">
-          <div className="flex justify-between text-xs text-gray-400 mb-2">
-            <span>Turn Time Limit</span>
-            <span>20 seconds</span>
+          <div className="flex justify-between text-xs mb-2">
+            <span className="text-gray-400">Turn Time Limit</span>
+            <span className={`font-bold ${timeLeft <= 5 ? 'text-red-400 animate-pulse' : 'text-gray-300'}`}>
+              {timeLeft}s remaining
+            </span>
           </div>
-          <div className="w-full bg-white/10 rounded-full h-2">
+          <div className="w-full bg-white/10 rounded-full h-3 relative overflow-hidden">
             <div 
-              className="bg-poker-gold h-2 rounded-full transition-all duration-1000"
-              style={{ width: '100%' }}
+              className={`h-3 rounded-full transition-all duration-1000 ${
+                timeLeft <= 5 ? 'bg-red-500' : 'bg-poker-gold'
+              }`}
+              style={{ width: `${(timeLeft / (GAME_CONFIG.timers.turnDurationMs / 1000)) * 100}%` }}
             ></div>
           </div>
         </div>

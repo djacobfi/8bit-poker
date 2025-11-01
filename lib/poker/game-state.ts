@@ -14,7 +14,7 @@ import {
   NotPlayerTurnError,
 } from '@/types/poker.types';
 import { GAME_CONFIG } from '@/config/game.config';
-import { createAndShuffleDeck, dealCard } from './card';
+import { createAndShuffleDeck, dealCard, dealCards } from './card';
 import { Card } from '@/types/poker.types';
 
 export class GameStateManager {
@@ -80,6 +80,7 @@ export class GameStateManager {
     // Update game state
     gameState.players = players;
     gameState.communityCards = [];
+    gameState.remainingDeck = remainingDeck; // Store remaining deck for community cards
     gameState.bettingRound = 'preFlop';
     gameState.currentPlayerIndex = this.getFirstActionPlayerIndex(
       players,
@@ -348,11 +349,27 @@ export class GameStateManager {
     const nextPhase = phaseOrder[currentIndex + 1];
     
     // Deal community cards if needed
-    if (nextPhase === 'flop') {
-      // Deal 3 flop cards
-      gameState.communityCards = [];
-    } else if (nextPhase === 'turn' || nextPhase === 'river') {
-      // Already dealt in previous phase
+    if (nextPhase === 'flop' && gameState.remainingDeck) {
+      // Burn one card, then deal 3 flop cards
+      let deck = gameState.remainingDeck;
+      const { remainingDeck: afterBurn } = dealCard(deck); // Burn card
+      const { cards: flopCards, remainingDeck: afterFlop } = dealCards(afterBurn, 3);
+      gameState.communityCards = flopCards;
+      gameState.remainingDeck = afterFlop;
+    } else if (nextPhase === 'turn' && gameState.remainingDeck) {
+      // Burn one card, then deal 1 turn card
+      let deck = gameState.remainingDeck;
+      const { remainingDeck: afterBurn } = dealCard(deck); // Burn card
+      const { card: turnCard, remainingDeck: afterTurn } = dealCard(afterBurn);
+      gameState.communityCards = [...gameState.communityCards, turnCard];
+      gameState.remainingDeck = afterTurn;
+    } else if (nextPhase === 'river' && gameState.remainingDeck) {
+      // Burn one card, then deal 1 river card
+      let deck = gameState.remainingDeck;
+      const { remainingDeck: afterBurn } = dealCard(deck); // Burn card
+      const { card: riverCard, remainingDeck: afterRiver } = dealCard(afterBurn);
+      gameState.communityCards = [...gameState.communityCards, riverCard];
+      gameState.remainingDeck = afterRiver;
     }
 
     // Reset betting state

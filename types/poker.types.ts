@@ -106,6 +106,7 @@ export interface GameState {
   lastActionTime: number;
   gamePhase: 'waiting' | 'playing' | 'finished' | 'showdown';
   winner?: WinnerInfo;
+  remainingDeck?: Card[]; // Deck after dealing hole cards
 }
 
 export interface WinnerInfo {

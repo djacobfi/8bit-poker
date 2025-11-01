@@ -25,6 +25,7 @@ interface GameStore {
   isMatchmaking: boolean;
   isGameActive: boolean;
   currentView: 'lobby' | 'game' | 'matchmaking';
+  turnTimeoutTimer: NodeJS.Timeout | null;
 
   // Actions
   startMatchmaking: (user: Player) => void;
@@ -32,6 +33,8 @@ interface GameStore {
   startGame: (players: Player[]) => void;
   processPlayerAction: (playerId: string, actionType: Action['type'], amount?: number) => void;
   processAIActions: () => void;
+  startTurnTimer: () => void;
+  clearTurnTimer: () => void;
   endGame: () => void;
   resetGame: () => void;
   updateStatistics: (stats: Partial<PlayerStatistics>) => void;
@@ -44,6 +47,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   isMatchmaking: false,
   isGameActive: false,
   currentView: 'lobby',
+  turnTimeoutTimer: null,
 
   // Start matchmaking
   startMatchmaking: (user: Player) => {
@@ -112,6 +116,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
       currentView: 'game',
     });
 
+    // Start turn timer
+    get().startTurnTimer();
+
     // Process AI actions if not human's turn
     setTimeout(() => {
       get().processAIActions();
@@ -139,6 +146,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
           players: gameState.players,
         },
       });
+
+      // Clear old timer and start new one
+      get().clearTurnTimer();
+      get().startTurnTimer();
 
       // Check if game ended
       if (gameState.gamePhase === 'finished') {
@@ -175,6 +186,35 @@ export const useGameStore = create<GameStore>((set, get) => ({
     setTimeout(() => {
       get().processPlayerAction(aiPlayer.id, decision.action, decision.amount);
     }, reactionTime);
+  },
+
+  // Start turn timer (20 seconds)
+  startTurnTimer: () => {
+    get().clearTurnTimer(); // Clear any existing timer
+    
+    const timer = setTimeout(() => {
+      const { session } = get();
+      if (!session) return;
+
+      const currentPlayer = session.gameState.players[session.gameState.currentPlayerIndex];
+      
+      // Auto-fold if timer expires
+      if (currentPlayer && currentPlayer.status === 'active') {
+        console.log(`Timer expired for ${currentPlayer.name}, auto-folding...`);
+        get().processPlayerAction(currentPlayer.id, 'fold');
+      }
+    }, GAME_CONFIG.timers.turnDurationMs);
+
+    set({ turnTimeoutTimer: timer });
+  },
+
+  // Clear turn timer
+  clearTurnTimer: () => {
+    const { turnTimeoutTimer } = get();
+    if (turnTimeoutTimer) {
+      clearTimeout(turnTimeoutTimer);
+    }
+    set({ turnTimeoutTimer: null });
   },
 
   // End game and show results
