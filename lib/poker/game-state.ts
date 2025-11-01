@@ -259,18 +259,27 @@ export class GameStateManager {
     return players.map((p) => {
       if (p.id !== playerId) return p;
 
+      const actionRecord: Action = {
+        playerId: p.id,
+        type: actionType,
+        amount: actionType === 'bet' || actionType === 'raise' || actionType === 'call' ? amount : undefined,
+        timestamp: Date.now(),
+        round: 'preFlop', // This will be updated by caller
+      };
+
       switch (actionType) {
         case 'fold':
-          return { ...p, status: 'folded', currentBet: p.currentBet };
+          return { ...p, status: 'folded', currentBet: p.currentBet, actionHistory: [...p.actionHistory, actionRecord] };
 
         case 'check':
-          return { ...p, currentBet: p.currentBet };
+          return { ...p, currentBet: p.currentBet, actionHistory: [...p.actionHistory, actionRecord] };
 
         case 'call':
           return {
             ...p,
             chips: p.chips - amount,
             currentBet: p.currentBet + amount,
+            actionHistory: [...p.actionHistory, actionRecord],
           };
 
         case 'bet':
@@ -279,6 +288,7 @@ export class GameStateManager {
             ...p,
             chips: p.chips - amount,
             currentBet: p.currentBet + amount,
+            actionHistory: [...p.actionHistory, actionRecord],
           };
 
         case 'allIn':
@@ -287,6 +297,7 @@ export class GameStateManager {
             chips: 0,
             currentBet: p.currentBet + amount,
             status: 'allIn',
+            actionHistory: [...p.actionHistory, actionRecord],
           };
 
         default:

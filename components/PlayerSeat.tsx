@@ -51,15 +51,18 @@ export default function PlayerSeat({ player, position, isCurrentPlayer, showCard
       )}
 
       {/* Status Badge */}
-      <div className="absolute top-2 right-2">
+      <div className="absolute top-2 right-2 flex flex-col gap-1">
         {player.isDealer && (
-          <div className="bg-blue-600 text-white text-xs px-2 py-1 rounded">D</div>
+          <div className="bg-blue-600 text-white text-xs px-2 py-1 rounded font-bold animate-pulse">🎰 D</div>
         )}
         {player.status === 'allIn' && (
-          <div className="bg-poker-red text-white text-xs px-2 py-1 rounded">ALL-IN</div>
+          <div className="bg-poker-red text-white text-xs px-2 py-1 rounded font-bold animate-pulse">🔥 ALL-IN</div>
         )}
         {player.status === 'folded' && (
-          <div className="bg-gray-600 text-white text-xs px-2 py-1 rounded">FOLDED</div>
+          <div className="bg-gray-600 text-white text-xs px-2 py-1 rounded">❌ FOLDED</div>
+        )}
+        {isCurrentPlayer && player.status === 'active' && (
+          <div className="bg-poker-gold text-poker-green text-xs px-2 py-1 rounded font-bold">YOUR TURN</div>
         )}
       </div>
 

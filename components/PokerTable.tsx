@@ -9,6 +9,8 @@ import PlayerSeat from './PlayerSeat';
 import CommunityCards from './CommunityCards';
 import ActionButtons from './ActionButtons';
 import PotDisplay from './PotDisplay';
+import GameStatusDisplay from './GameStatusDisplay';
+import ActionFeedback from './ActionFeedback';
 
 interface PokerTableProps {
   onReturnToLobby: () => void;
@@ -89,11 +91,15 @@ export default function PokerTable({ onReturnToLobby }: PokerTableProps) {
   if (isGameActive && session) {
     const gameState = session.gameState;
     const humanPlayer = gameState.players.find(p => p.isHuman);
+    const currentPlayer = gameState.players[gameState.currentPlayerIndex];
 
     return (
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto p-4">
+        {/* Game Status Display */}
+        <GameStatusDisplay gameState={gameState} />
+
         {/* Table Layout */}
-        <div className="relative">
+        <div className="relative bg-white/5 rounded-2xl p-8 border border-white/10">
           <PotDisplay pots={gameState.pots} />
           
           {/* Community Cards Area */}
@@ -102,7 +108,7 @@ export default function PokerTable({ onReturnToLobby }: PokerTableProps) {
           </div>
 
           {/* Player Seats */}
-          <div className="grid grid-cols-4 gap-4 min-h-[500px] p-8">
+          <div className="grid grid-cols-4 gap-4 min-h-[400px]">
             {gameState.players.map((player, index) => (
               <PlayerSeat
                 key={player.id}
@@ -125,16 +131,6 @@ export default function PokerTable({ onReturnToLobby }: PokerTableProps) {
             />
           </div>
         )}
-
-        {/* Betting Info */}
-        <div className="mt-4 text-center text-gray-300">
-          <p>
-            Current Bet: <span className="text-poker-gold font-bold">{gameState.currentBet}</span> chips
-          </p>
-          <p className="text-sm">
-            Round: <span className="font-semibold">{GAME_CONFIG.bettingRounds[gameState.bettingRound].name}</span>
-          </p>
-        </div>
 
         {/* Return Button */}
         <div className="mt-8 text-center">
