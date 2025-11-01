@@ -1,0 +1,221 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-b from-poker-green to-poker-felt;
+    @apply text-white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.5);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 175, 55, 0.8);
+  }
+}
+
+@layer components {
+  /* Card styling */
+  .card-back {
+    @apply bg-gradient-to-br from-blue-600 to-blue-800;
+    @apply border-2 border-white/20;
+    @apply rounded-lg;
+    @apply shadow-lg;
+  }
+
+  .card-front {
+    @apply bg-white;
+    @apply border-2 border-white/30;
+    @apply rounded-lg;
+    @apply shadow-xl;
+    @apply text-2xl;
+    @apply font-bold;
+    @apply flex items-center justify-center;
+    @apply min-w-[60px] min-h-[84px];
+  }
+
+  .card-red {
+    @apply text-red-600;
+  }
+
+  .card-black {
+    @apply text-black;
+  }
+
+  /* Chip styling */
+  .chip {
+    @apply rounded-full;
+    @apply border-4;
+    @apply shadow-lg;
+    @apply font-bold;
+    @apply flex items-center justify-center;
+    @apply text-sm;
+  }
+
+  .chip-small {
+    @apply w-8 h-8;
+  }
+
+  .chip-medium {
+    @apply w-12 h-12;
+  }
+
+  .chip-large {
+    @apply w-16 h-16;
+    @apply text-lg;
+  }
+
+  .chip-white {
+    @apply bg-white;
+    @apply border-gray-400;
+    @apply text-gray-800;
+  }
+
+  .chip-red {
+    @apply bg-red-600;
+    @apply border-red-800;
+    @apply text-white;
+  }
+
+  .chip-blue {
+    @apply bg-blue-600;
+    @apply border-blue-800;
+    @apply text-white;
+  }
+
+  .chip-green {
+    @apply bg-green-600;
+    @apply border-green-800;
+    @apply text-white;
+  }
+
+  .chip-black {
+    @apply bg-gray-800;
+    @apply border-gray-900;
+    @apply text-white;
+  }
+
+  /* Button styling */
+  .btn {
+    @apply px-6 py-3;
+    @apply rounded-lg;
+    @apply font-semibold;
+    @apply transition-all duration-200;
+    @apply disabled:opacity-50;
+    @apply disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-poker-gold;
+    @apply text-poker-green;
+    @apply hover:bg-yellow-400;
+    @apply active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply bg-white/10;
+    @apply text-white;
+    @apply hover:bg-white/20;
+    @apply active:scale-95;
+  }
+
+  .btn-danger {
+    @apply bg-poker-red;
+    @apply text-white;
+    @apply hover:bg-red-700;
+    @apply active:scale-95;
+  }
+
+  .btn-success {
+    @apply bg-green-600;
+    @apply text-white;
+    @apply hover:bg-green-700;
+    @apply active:scale-95;
+  }
+
+  /* Table felt styling */
+  .table-felt {
+    @apply bg-poker-felt;
+    @apply rounded-full;
+    @apply border-8 border-poker-gold;
+    @apply shadow-2xl;
+  }
+
+  /* Loading spinner */
+  .spinner {
+    @apply inline-block;
+    @apply w-8 h-8;
+    @apply border-4 border-white/30 border-t-white;
+    @apply rounded-full;
+    @apply animate-spin;
+  }
+}
+
+@layer utilities {
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .animate-bounce-in {
+    animation: bounceIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes bounceIn {
+    0% {
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}
+

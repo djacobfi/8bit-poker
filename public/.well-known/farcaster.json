@@ -1,0 +1,22 @@
+{
+  "accountAssociation": {
+    "header": "YOUR_BASE64_HEADER",
+    "payload": "YOUR_BASE64_PAYLOAD",
+    "signature": "YOUR_SIGNATURE"
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "8 Bit Poker",
+    "iconUrl": "/logo.png",
+    "homeUrl": "/",
+    "imageUrl": "/og-image.png",
+    "buttonTitle": "🎮 Play Poker",
+    "splashImageUrl": "/logo.png",
+    "splashBackgroundColor": "#0d6e47",
+    "webhookUrl": "",
+    "castShareUrl": "/share",
+    "description": "Play Texas Hold'em Poker in 8-bit style! Buy chips with USDC, compete against AI, and win!",
+    "requiredChains": ["eip155:8453"],
+    "requiredCapabilities": ["wallet.getEthereumProvider", "actions.composeCast"]
+  }
+}

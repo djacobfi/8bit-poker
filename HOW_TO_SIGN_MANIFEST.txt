@@ -1,0 +1,83 @@
+╔══════════════════════════════════════════════════════════════════╗
+║   HOW TO GENERATE FARCASTER MINI APP MANIFEST SIGNATURE         ║
+╚══════════════════════════════════════════════════════════════════╝
+
+STEP 1: Go to Manifest Generator
+─────────────────────────────────────────────────────────────────
+URL: https://farcaster.xyz/~/developers/mini-apps/manifest
+
+⚠️  IMPORTANT: You MUST be logged into Farcaster first!
+
+
+STEP 2: Enter Your Information
+─────────────────────────────────────────────────────────────────
+Fill in these fields:
+
+Domain: poker.yourdomain.com          (WHERE you'll deploy)
+Name: 8 Bit Poker                     (Display name)
+Description: Play 8-bit poker!...     (What your app does)
+Home URL: https://poker.yourdomain.com/
+Icon: https://poker.yourdomain.com/logo.png
+Image: https://poker.yourdomain.com/og-image.png
+Button Title: 🎮 Play Poker
+
+
+STEP 3: Generate Signature
+─────────────────────────────────────────────────────────────────
+Click "Generate Signature" button.
+
+You'll get THREE values:
+┌─────────────────────────────────────────────────────────────────┐
+│ header:  eyJmaWQiOjEyMzQ1In0...                                │
+│ payload: eyJkb21haW4iOiJwb2tlci5leGFtcGxlLmNvbSJ9             │
+│ signature: 0xabcd1234567890abcdef...                           │
+└─────────────────────────────────────────────────────────────────┘
+
+
+STEP 4: Update Your File
+─────────────────────────────────────────────────────────────────
+Open: public/.well-known/farcaster.json
+
+Replace these three lines:
+  "header": "YOUR_BASE64_HEADER",        ← PASTE header here
+  "payload": "YOUR_BASE64_PAYLOAD",      ← PASTE payload here
+  "signature": "YOUR_SIGNATURE",         ← PASTE signature here
+
+Save the file.
+
+
+STEP 5: Deploy & Verify
+─────────────────────────────────────────────────────────────────
+1. Deploy your app to the domain you signed
+2. Test manifest is accessible:
+   curl https://your-domain.com/.well-known/farcaster.json
+3. Preview in Farcaster:
+   https://farcaster.xyz/~/developers/mini-apps/preview
+
+
+⚠️  CRITICAL RULES:
+─────────────────────────────────────────────────────────────────
+✓ Domain MUST match exactly (no www, no trailing slash)
+✓ Must deploy to HTTPS (Farcaster requirement)
+✓ Regenerate if you change domain
+✓ Manifest file must be publicly accessible
+
+
+💡 QUICK TIPS:
+─────────────────────────────────────────────────────────────────
+• Use tunnel services (ngrok) for testing before deploying
+• Keep a backup of your signature values
+• Test thoroughly before going live
+• Domain changes require a new signature
+
+
+📚 MORE HELP:
+─────────────────────────────────────────────────────────────────
+See: MANIFEST_SIGNING_GUIDE.md for detailed instructions
+Docs: https://miniapps.farcaster.xyz/docs/guides/publishing
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║                    YOU'RE READY TO GO! 🎰                       ║
+╚══════════════════════════════════════════════════════════════════╝
+

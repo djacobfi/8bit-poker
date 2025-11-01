@@ -1,0 +1,59 @@
+╔════════════════════════════════════════════════════════════════════╗
+║          DEPLOY 8 BIT POKER TO VERCEL IN 2 MINUTES                ║
+╚════════════════════════════════════════════════════════════════════╝
+
+METHOD 1: Vercel CLI (Fastest)
+──────────────────────────────────────────────────────────────────
+
+1. Install Vercel CLI:
+   npm i -g vercel
+
+2. Deploy:
+   vercel
+
+3. Follow prompts (all defaults work)
+
+✅ DONE! You get a URL like: https://8bit-poker.vercel.app
+
+
+METHOD 2: GitHub + Vercel (Recommended)
+──────────────────────────────────────────────────────────────────
+
+1. Create GitHub repo (github.com/new)
+
+2. Push your code:
+   git init
+   git add .
+   git commit -m "8 Bit Poker"
+   git branch -M main
+   git remote add origin https://github.com/YOUR_USERNAME/8bit-poker.git
+   git push -u origin main
+
+3. Go to vercel.com/new and import from GitHub
+
+✅ DONE! Auto-deploys on every push!
+
+
+AFTER DEPLOYMENT:
+──────────────────────────────────────────────────────────────────
+
+1. Get your deployment URL (e.g., https://8bit-poker.vercel.app)
+
+2. Generate manifest signature at:
+   https://farcaster.xyz/~/developers/mini-apps/manifest
+
+3. Enter your deployed URL when prompted
+
+4. Copy signature and update public/.well-known/farcaster.json
+
+5. Push changes to redeploy
+
+6. Test at:
+   https://farcaster.xyz/~/developers/mini-apps/preview
+
+
+⚡ THAT'S IT! YOUR APP IS LIVE! 🎰
+──────────────────────────────────────────────────────────────────
+
+Full guide: DEPLOYMENT_GUIDE.md
+
