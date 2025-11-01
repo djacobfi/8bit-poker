@@ -6,6 +6,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: '#0d6e47',
 };
 
 export const metadata: Metadata = {
@@ -50,12 +51,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* Force portrait orientation */}
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <meta name="screen-orientation" content="portrait" />
-        <meta name="mobile-web-app-capable" content="yes" />
-      </head>
       <body className="min-h-screen bg-poker-green text-white antialiased">
         {children}
       </body>
