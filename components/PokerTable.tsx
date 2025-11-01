@@ -99,16 +99,19 @@ export default function PokerTable({ onReturnToLobby }: PokerTableProps) {
         <GameStatusDisplay gameState={gameState} />
 
         {/* Table Layout */}
-        <div className="relative bg-white/5 rounded-2xl p-8 border border-white/10">
-          <PotDisplay pots={gameState.pots} />
-          
-          {/* Community Cards Area */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="bg-white/5 rounded-2xl p-8 border border-white/10">
+          {/* Community Cards Area - Top of table */}
+          <div className="flex justify-center mb-6">
             <CommunityCards cards={gameState.communityCards} />
           </div>
 
-          {/* Player Seats */}
-          <div className="grid grid-cols-4 gap-4 min-h-[400px]">
+          {/* Pot Display - Below community cards */}
+          <div className="flex justify-center mb-6">
+            <PotDisplay pots={gameState.pots} />
+          </div>
+
+          {/* Player Seats - Below pot */}
+          <div className="grid grid-cols-4 gap-4">
             {gameState.players.map((player, index) => (
               <PlayerSeat
                 key={player.id}
@@ -148,4 +151,5 @@ export default function PokerTable({ onReturnToLobby }: PokerTableProps) {
     </div>
   );
 }
+
 
