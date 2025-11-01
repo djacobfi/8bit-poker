@@ -9,6 +9,25 @@ import { sdk as miniappSDK } from '@farcaster/miniapp-sdk';
 export const sdk = miniappSDK;
 
 /**
+ * Initialize the Farcaster mini app
+ * Call this when the app first loads
+ */
+export async function initializeMiniApp() {
+  try {
+    // Get initial context
+    const context = await sdk.context;
+    
+    // Call ready() to hide splash screen
+    await sdk.actions.ready();
+    
+    return context;
+  } catch (error) {
+    console.error('Failed to initialize mini app:', error);
+    throw error;
+  }
+}
+
+/**
  * Check if running in Farcaster mini app
  */
 export async function isInMiniApp(): Promise<boolean> {
@@ -20,49 +39,24 @@ export async function isInMiniApp(): Promise<boolean> {
 }
 
 /**
- * Initialize the Farcaster mini app
- * Call this when the app first loads
- */
-export async function initializeMiniApp() {
-  try {
-    // Check if we're in a Farcaster mini app
-    const inMiniApp = await isInMiniApp();
-    
-    if (!inMiniApp) {
-      console.log('Not in Farcaster mini app, running in dev mode');
-      return { user: null, client: { platformType: 'web' } };
-    }
-    
-    // Get initial context
-    const context = await sdk.context;
-    
-    // Call ready() to hide splash screen
-    await sdk.actions.ready();
-    
-    return context;
-  } catch (error) {
-    console.log('Failed to initialize mini app, running in dev mode:', error);
-    // Return mock context for development
-    return { user: null, client: { platformType: 'web' } };
-  }
-}
-
-/**
  * Get current user context
  */
 export async function getCurrentUser() {
   try {
     const context = await sdk.context;
-    return context?.user || null;
+    return context.user;
   } catch (error) {
-    console.log('Not in Farcaster mini app, using mock user');
-    // Return mock user for development
-    return {
-      fid: 12345,
-      username: 'dev_user',
-      displayName: 'Dev User',
-      pfpUrl: '',
-    };
+    // Dev mode: Return mock user for local testing
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      console.log('Running in dev mode - using mock user');
+      return {
+        fid: 1,
+        username: 'dev_user',
+        displayName: 'Dev Player',
+        pfpUrl: '',
+      };
+    }
+    throw error;
   }
 }
 

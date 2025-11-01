@@ -56,6 +56,11 @@ export async function getWalletAddress(): Promise<string | null> {
  */
 export async function getUSDCBalance(): Promise<string> {
   try {
+    // Dev mode: Return mock balance for local testing
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      return '100.00';
+    }
+    
     const provider = await getEthereumProvider();
     if (!provider) return '0';
 

@@ -1,0 +1,95 @@
+╔════════════════════════════════════════════════════════════════════╗
+║     DEPLOY 8 BIT POKER TO POKER.FLAPPYX.XYZ                        ║
+╚════════════════════════════════════════════════════════════════════╝
+
+YOUR DOMAIN: flappyx.xyz
+YOUR APP URL: https://poker.flappyx.xyz
+
+
+STEP 1: DEPLOY TO VERCEL
+─────────────────────────────────────────────────────────────────
+1. Go to: https://vercel.com/new
+2. Import: djacobfi/8bit-poker
+3. Click: Deploy
+4. Wait: 2-3 minutes
+
+You get: https://8bit-poker.vercel.app (temporary)
+
+
+STEP 2: ADD CUSTOM DOMAIN
+─────────────────────────────────────────────────────────────────
+1. Vercel Dashboard → Settings → Domains
+2. Add Domain: poker.flappyx.xyz
+3. Follow DNS instructions
+
+
+STEP 3: UPDATE DNS
+─────────────────────────────────────────────────────────────────
+Go to your DNS provider (Namecheap, GoDaddy, etc.)
+
+Add CNAME record:
+┌─────────────────────────────────────────────────────────────────┐
+│ Type:  CNAME                                                   │
+│ Name:  poker                                                   │
+│ Value: cname.vercel-dns.com                                   │
+│ TTL:   3600                                                    │
+└─────────────────────────────────────────────────────────────────┘
+
+Wait: 5-10 minutes for DNS propagation
+
+
+STEP 4: GENERATE MANIFEST SIGNATURE
+─────────────────────────────────────────────────────────────────
+1. Go to: https://farcaster.xyz/~/developers/mini-apps/manifest
+
+2. Enter:
+   Domain: poker.flappyx.xyz
+   Name: 8 Bit Poker
+   Description: Play Texas Hold'em Poker in 8-bit style!...
+   Home URL: https://poker.flappyx.xyz/
+   Icon URL: https://poker.flappyx.xyz/logo.png
+   Image URL: https://poker.flappyx.xyz/og-image.png
+   Button Title: 🎮 Play Poker
+   Cast Share URL: https://poker.flappyx.xyz/share
+
+3. Click: Generate Signature
+
+4. Copy: header, payload, signature
+
+
+STEP 5: UPDATE MANIFEST FILE
+─────────────────────────────────────────────────────────────────
+1. Open: public/.well-known/farcaster.json
+
+2. Replace:
+   "header": "YOUR_HEADER_HERE"
+   "payload": "YOUR_PAYLOAD_HERE"
+   "signature": "YOUR_SIGNATURE_HERE"
+
+3. Save file
+
+
+STEP 6: PUSH TO GITHUB
+─────────────────────────────────────────────────────────────────
+git add public/.well-known/farcaster.json
+git commit -m "Add manifest signature for flappyx.xyz"
+git push
+
+Vercel auto-redeploys!
+
+
+STEP 7: TEST IT!
+─────────────────────────────────────────────────────────────────
+1. Visit: https://poker.flappyx.xyz
+2. Test manifest: curl https://poker.flappyx.xyz/.well-known/farcaster.json
+3. Test in Farcaster: https://farcaster.xyz/~/developers/mini-apps/preview
+
+
+✅ THAT'S IT! YOUR APP IS LIVE! 🎰
+
+
+Your App: https://poker.flappyx.xyz
+Your Repo: https://github.com/djacobfi/8bit-poker
+
+Full guide: DEPLOY_FLAPPYX.md
+

@@ -1,13 +1,5 @@
-import type { Metadata, Viewport } from 'next';
+import type { Metadata } from 'next';
 import './globals.css';
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: '#0d6e47',
-};
 
 export const metadata: Metadata = {
   title: '8 Bit Poker - Farcaster Mini App',
@@ -26,7 +18,6 @@ export const metadata: Metadata = {
     ],
   },
   other: {
-    'screen-orientation': 'portrait',
     'fc:miniapp': JSON.stringify({
       version: '1',
       imageUrl: '/og-image.png',
