@@ -1,15 +1,16 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export const metadata: Metadata = {
   title: '8 Bit Poker - Farcaster Mini App',
   description: 'Play Texas Hold\'em Poker in 8-bit style! Buy chips with USDC, compete against AI, and win!',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
   openGraph: {
     title: '8 Bit Poker - Farcaster Mini App',
     description: 'Play Texas Hold\'em Poker in 8-bit style! Buy chips with USDC, compete against AI, and win!',

@@ -32,6 +32,12 @@ export default function PokerTable({ onReturnToLobby }: PokerTableProps) {
         const currentUser = await getCurrentUser();
         setUser(currentUser);
 
+        // Handle null user (dev mode)
+        if (!currentUser) {
+          console.error('No user available');
+          return;
+        }
+
         // Create human player
         const humanPlayer: Player = {
           id: `human_${currentUser.fid}`,
