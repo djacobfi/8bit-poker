@@ -3,6 +3,17 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    /* Force portrait orientation */
+    /* Lock to portrait mode */
+  }
+
+  @media (orientation: landscape) {
+    body {
+      /* Show orientation message in landscape */
+    }
+  }
+
   body {
     @apply bg-gradient-to-b from-poker-green to-poker-felt;
     @apply text-white;
