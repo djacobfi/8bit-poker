@@ -34,9 +34,9 @@ export default function PokerTable({ onReturnToLobby }: PokerTableProps) {
 
         // Create human player
         const humanPlayer: Player = {
-          id: `human_${currentUser.fid}`,
+          id: `human_${currentUser.fid || 'dev_user'}`,
           name: currentUser.username || currentUser.displayName || 'Player',
-          avatarUrl: currentUser.pfpUrl,
+          avatarUrl: currentUser.pfpUrl || '',
           chips: GAME_CONFIG.players.initialChips,
           currentBet: 0,
           holeCards: [],
